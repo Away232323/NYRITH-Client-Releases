@@ -1,6 +1,43 @@
 const year = document.getElementById('year')
 if (year) year.textContent = new Date().getFullYear()
 
+// NYRITH favicon + brand artwork
+const favicon = document.createElement('link')
+favicon.rel = 'icon'
+favicon.type = 'image/svg+xml'
+favicon.href = `favicon.svg?v=nyrith-brand-2`
+document.head.appendChild(favicon)
+
+const brandStyle = document.createElement('style')
+brandStyle.textContent = `
+  .brand-mark {
+    color: transparent !important;
+    font-size: 0 !important;
+    background: url('favicon.svg?v=nyrith-brand-2') center/contain no-repeat !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .launcher-brand > span {
+    display:inline-block !important;
+    width:24px !important;
+    height:24px !important;
+    color:transparent !important;
+    font-size:0 !important;
+    background:url('favicon.svg?v=nyrith-brand-2') center/contain no-repeat !important;
+  }
+  .instance-icon {
+    color: transparent !important;
+    font-size: 0 !important;
+    background: url('favicon.svg?v=nyrith-brand-2') center/82% no-repeat, rgba(154,108,255,.08) !important;
+  }
+  .instance-card > i:first-child {
+    color: transparent !important;
+    font-size: 0 !important;
+    background: url('favicon.svg?v=nyrith-brand-2') center/80% no-repeat !important;
+  }
+`
+document.head.appendChild(brandStyle)
+
 const downloadLinks = [...document.querySelectorAll('.js-download')]
 const versionLabels = [...document.querySelectorAll('.js-version')]
 const releaseStatus = document.getElementById('releaseStatus')
