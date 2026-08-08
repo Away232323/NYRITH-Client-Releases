@@ -1,4 +1,4 @@
-name: Publish NYRITH 0.8.4 Matrix + Player Stage
+name: Publish NYRITH 0.9.0 Full UI Rework
 
 on:
   push:
@@ -12,10 +12,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      ARTIFACT_URL: "https://sdmntprukwest.oaiusercontent.com/files/00000000-5c68-8243-a802-3546cd2b73de/raw?se=2026-08-08T12%3A47%3A17Z&sp=r&sv=2026-02-06&sr=b&scid=4d04d193-53a2-5a0a-b799-e0539bb91349&skoid=e32cbaad-a1eb-4299-9f16-1b364ab43781&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-08T05%3A56%3A07Z&ske=2026-08-09T05%3A56%3A07Z&sks=b&skv=2026-02-06&sig=7FyYU6eaYvYSQDPpx97ksAV2swTM8FRILClBdYEC0rc%3D"
+      ARTIFACT_URL: "https://sdmntprnortheu.oaiusercontent.com/files/00000000-8a3c-81f4-9672-cf4fea7870d0/raw?se=2026-08-08T13%3A11%3A43Z&sp=r&sv=2026-02-06&sr=b&scid=684f93e2-53a7-5982-8b0a-74bbe4904663&skoid=a0b9f82a-c86e-4064-a822-2aa38890bb37&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-08T05%3A48%3A43Z&ske=2026-08-09T05%3A48%3A43Z&sks=b&skv=2026-02-06&sig=AZjYr55zdZA0SgQeqChOKcVQIy0x3JPBXhwQuNYGPjk%3D"
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Download NYRITH 0.8.4 build
+      - name: Download NYRITH 0.9.0 build
         shell: bash
         run: |
           set -euo pipefail
@@ -23,7 +23,7 @@ jobs:
           mkdir release-files
           unzip -q nyrith-build.zip -d release-files
           find release-files -maxdepth 3 -type f -print
-          test -n "$(find release-files -type f -name 'NYRITH-Setup-0.8.4-alpha.1-x64.exe' -print -quit)"
+          test -n "$(find release-files -type f -name 'NYRITH-Setup-0.9.0-alpha.1-x64.exe' -print -quit)"
           test -n "$(find release-files -type f -name 'latest.yml' -print -quit)"
           test -n "$(find release-files -type f -name '*.blockmap' -print -quit)"
 
@@ -31,13 +31,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          exe="$(find release-files -type f -name 'NYRITH-Setup-0.8.4-alpha.1-x64.exe' -print -quit)"
+          exe="$(find release-files -type f -name 'NYRITH-Setup-0.9.0-alpha.1-x64.exe' -print -quit)"
           yml="$(find release-files -type f -name 'latest.yml' -print -quit)"
-          blockmap="$(find release-files -type f -name 'NYRITH-Setup-0.8.4-alpha.1-x64.exe.blockmap' -print -quit)"
+          blockmap="$(find release-files -type f -name 'NYRITH-Setup-0.9.0-alpha.1-x64.exe.blockmap' -print -quit)"
           gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
           gh release create latest "$exe" "$yml" "$blockmap" \
             --repo "$GITHUB_REPOSITORY" \
             --target main \
-            --title "NYRITH Client 0.8.4 Alpha" \
-            --notes "NYRITH 0.8.4 fixes launcher-wide animated FX stacking so Matrix Rain and the other backgrounds are actually visible, and rebuilds the Play player stage with a larger Minecraft-style character focus and overlapping launch dock." \
+            --title "NYRITH Client 0.9.0 Alpha" \
+            --notes "NYRITH 0.9.0 is the full launcher UI rework: compact client-style header and sidebar, centered player stage, overlapping launch card, dedicated news rail and a single coherent theme system across the launcher. NYRITH branding and original visuals are retained." \
             --prerelease
