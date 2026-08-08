@@ -1,35 +1,10 @@
-name: Publish NYRITH 0.8.2 Public Release
+name: NYRITH Release Bootstrap Complete
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/publish-bootstrap.yml'
-
-permissions:
-  contents: write
+  workflow_dispatch:
 
 jobs:
-  publish:
+  done:
     runs-on: ubuntu-latest
     steps:
-      - name: Download NYRITH 0.8.2 build
-        env:
-          ARTIFACT_URL: "https://sdmntprnortheu.oaiusercontent.com/files/00000000-7e58-81f4-9788-db34b5864915/raw?se=2026-08-08T11%3A34%3A17Z&sp=r&sv=2026-02-06&sr=b&scid=91275bee-346a-5006-bee6-23a84d00a108&skoid=d4d17077-8f33-42a9-bd8b-aa9d5eaf5320&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-08-08T03%3A52%3A02Z&ske=2026-08-09T03%3A52%3A02Z&sks=b&skv=2026-02-06&sig=Ntas0JLu4SotcQqmlzo8LYUkyXXyWprnZiCuXCF/MAg%3D"
-        run: |
-          curl --fail --location "$ARTIFACT_URL" --output nyrith.zip
-          mkdir release
-          unzip -q nyrith.zip -d release
-          find release -type f -maxdepth 3 -print
-
-      - name: Publish rolling latest release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release view latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 && gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
-          mapfile -t files < <(find release -type f \( -name '*.exe' -o -name '*.blockmap' -o -name 'latest.yml' \))
-          if [ "${#files[@]}" -lt 3 ]; then
-            echo "Expected installer, blockmap and latest.yml"
-            exit 1
-          fi
-          gh release create latest "${files[@]}" --repo "$GITHUB_REPOSITORY" --title "NYRITH Client 0.8.2 Alpha" --notes "NYRITH 0.8.2 restores the official shield logo, adds a clearer Microsoft/Minecraft Launcher account chooser, and fixes full-window animated backgrounds by repairing the FX canvas sizing and visibility." --prerelease
+      - run: echo 'NYRITH 0.8.2 public release bootstrap completed.'
