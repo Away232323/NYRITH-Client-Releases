@@ -34,7 +34,7 @@ jobs:
           exe="$(find release-files -type f -name 'NYRITH-Setup-0.8.3-alpha.1-x64.exe' -print -quit)"
           yml="$(find release-files -type f -name 'latest.yml' -print -quit)"
           blockmap="$(find release-files -type f -name 'NYRITH-Setup-0.8.3-alpha.1-x64.exe.blockmap' -print -quit)"
-          gh release delete latest --yes --cleanup-tag || true
+          gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
           gh release create latest "$exe" "$yml" "$blockmap" \
             --repo "$GITHUB_REPOSITORY" \
             --target main \
