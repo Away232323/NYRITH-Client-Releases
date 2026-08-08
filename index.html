@@ -3,194 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#06070b" />
-  <meta name="description" content="NYRITH Client – ein moderner Minecraft Performance Client mit Instances, Mods, Resourcepacks, Shadern und eigenem Ingame-Core." />
-  <title>NYRITH Client — Minecraft, nur für dich gemacht.</title>
+  <meta name="theme-color" content="#07080c" />
+  <meta name="description" content="NYRITH Client – ein cleaner Minecraft Performance Client mit isolierten Instances, integrierter Mod-Library, Auto-Optimierung und eigenem Ingame-Core." />
+  <meta property="og:title" content="NYRITH Client" />
+  <meta property="og:description" content="Minecraft. Schneller. Cleaner. Dein Setup." />
+  <title>NYRITH Client — Minecraft. Dein Setup.</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="site-noise" aria-hidden="true"></div>
-  <div class="site-glow glow-a" aria-hidden="true"></div>
-  <div class="site-glow glow-b" aria-hidden="true"></div>
+  <div class="page-noise" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
   <header class="topbar" id="top">
-    <div class="topbar-inner">
+    <div class="nav-shell">
       <a class="brand" href="#top" aria-label="NYRITH Startseite">
-        <span class="bolt" aria-hidden="true">ϟ</span>
-        <span class="brand-copy"><b>NYRITH</b><small>CLIENT</small></span>
+        <span class="brand-mark">ϟ</span>
+        <span class="brand-name">NYRITH<small>CLIENT</small></span>
       </a>
 
-      <nav class="nav" id="mainNav" aria-label="Hauptnavigation">
-        <a href="#launcher">Launcher</a>
+      <nav class="nav-links" aria-label="Navigation">
+        <a href="#client">Client</a>
         <a href="#features">Features</a>
         <a href="#performance">Performance</a>
+        <a href="#library">Library</a>
         <a href="#faq">FAQ</a>
       </nav>
 
-      <div class="top-actions">
-        <a class="nav-icon" href="#download" aria-label="Download">↓</a>
-        <a class="download-button js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest">Download</a>
+      <div class="nav-actions">
+        <span class="nav-version js-version">ALPHA</span>
+        <a class="nav-download js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest">Download <span>↓</span></a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero section-shell">
-      <div class="hero-kicker"><span></span> NYRITH PERFORMANCE CLIENT</div>
-      <h1>Minecraft, das sich anfühlt<br />als wäre es wirklich<br /><em>nur für dich gemacht.</em></h1>
-      <p class="hero-sub">Ein schneller, cleaner Minecraft Client für PvP, SMP und alles dazwischen. Instances, Mods, Performance und dein NYRITH Ingame-Core an einem Ort.</p>
+    <section class="hero shell reveal">
+      <div class="hero-badge"><i></i><span>PUBLIC ALPHA · WINDOWS</span></div>
+      <h1>Minecraft.<br><span>Nur ohne den Müll.</span></h1>
+      <p>Ein schneller, cleaner Minecraft Client für PvP, SMP und alles dazwischen. Deine Instances, Mods, Performance und dein Client-Core — ohne Ordnerchaos.</p>
+
       <div class="hero-actions">
-        <a class="cta primary js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest"><span>↓</span> Jetzt spielen</a>
-        <a class="cta secondary" href="#features">Features ansehen</a>
-      </div>
-      <div class="hero-meta">
-        <span>Windows 10 / 11</span><i></i><span>Minecraft Java Edition</span><i></i><span class="js-version">Latest Alpha</span>
+        <a class="button button-primary js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest"><span class="download-icon">↓</span><b>NYRITH herunterladen</b></a>
+        <a class="button button-secondary" href="#client"><span>▶</span> Client ansehen</a>
       </div>
 
-      <div class="launcher-stage" id="launcher">
-        <div class="stage-glow"></div>
-        <div class="launcher-window">
-          <div class="launcher-top">
-            <div class="mini-logo"><span class="mini-bolt">ϟ</span><b>NYRITH CLIENT</b><small class="js-version">ALPHA</small></div>
-            <div class="launcher-top-right"><button>▣ INSTANCE</button><button>◎ ACCOUNT</button><span>—</span><span>□</span><span>×</span></div>
+      <div class="hero-meta">
+        <span><i class="dot green"></i> Windows 10 / 11</span>
+        <span><i class="dot purple"></i> Minecraft Java</span>
+        <span><i class="dot blue"></i> <b class="js-version">Latest Alpha</b></span>
+      </div>
+
+      <div class="product-stage" id="client">
+        <div class="stage-aura"></div>
+        <div class="client-window" id="clientWindow">
+          <div class="client-titlebar">
+            <div class="client-brand"><span>ϟ</span><b>NYRITH</b><em>CLIENT</em></div>
+            <div class="client-title-actions">
+              <div class="instance-pill">▤ <b>Main</b><span>1.21.11</span></div>
+              <div class="account-pill"><i>A</i><b>ACCOUNT</b><span>⌄</span></div>
+              <div class="window-buttons"><i>—</i><i>□</i><i>×</i></div>
+            </div>
           </div>
 
-          <aside class="launcher-side" aria-hidden="true">
-            <span class="active">▶</span>
-            <span>▤</span>
-            <span>▦</span>
-            <span>☻</span>
-            <span>♜</span>
-            <span class="settings">⚙</span>
+          <aside class="client-sidebar">
+            <button class="active" aria-label="Play">▶</button>
+            <button aria-label="Instances">▤</button>
+            <button aria-label="Library">▦</button>
+            <button aria-label="Skins">☺</button>
+            <button aria-label="Capes">♜</button>
+            <button class="bottom" aria-label="Settings">⚙</button>
           </aside>
 
-          <div class="launcher-content">
-            <div class="player-view">
-              <div class="player-name">NYRITH</div>
-              <div class="character" aria-hidden="true">
-                <div class="head"><i></i><i></i></div>
-                <div class="body"></div>
-                <div class="arm left"></div><div class="arm right"></div>
-                <div class="leg left"></div><div class="leg right"></div>
-              </div>
-              <div class="launch-card">
-                <div><small>SELECTED INSTANCE</small><b>Main</b><span>Fabric · 1.21.11 · Optimized</span></div>
-                <button>▶ LAUNCH</button>
+          <div class="client-home">
+            <div class="client-home-top">
+              <span class="tiny-label">READY TO PLAY</span>
+              <div class="client-status"><i></i> All systems ready</div>
+            </div>
+
+            <div class="player-zone">
+              <div class="player-halo"></div>
+              <div class="player-label">AWAY</div>
+              <div class="pixel-player" aria-hidden="true">
+                <div class="px-head"><i></i><i></i><b></b></div>
+                <div class="px-body"></div>
+                <div class="px-arm left"></div><div class="px-arm right"></div>
+                <div class="px-leg left"></div><div class="px-leg right"></div>
               </div>
             </div>
 
-            <div class="news-panel">
-              <div class="news-title">▣ NYRITH NEWS</div>
-              <article><span>PERFORMANCE</span><h3>Built for smooth gameplay.</h3><p>Auto FPS Pack, isolated instances and a lightweight client core.</p></article>
-              <article><span>LIBRARY</span><h3>Everything in one place.</h3><p>Mods, resourcepacks and shaders without folder chaos.</p></article>
-              <article class="accent"><span>CLIENT CORE</span><h3>Right Shift. Your setup.</h3><p>NYRITH HUD and client controls directly ingame.</p></article>
+            <div class="launch-panel">
+              <div class="launch-instance">
+                <span class="instance-logo">N</span>
+                <div><small>SELECTED INSTANCE</small><b>Main</b><em>Fabric · Minecraft 1.21.11</em></div>
+              </div>
+              <div class="launch-tags"><span>11 MODS</span><span>8 GB RAM</span><span>OPTIMIZED</span></div>
+              <button class="launch-button"><span>▶</span><b>LAUNCH</b></button>
             </div>
           </div>
+
+          <aside class="client-news">
+            <div class="panel-heading"><span>NEWS</span><i>•••</i></div>
+            <article class="news-hero"><small>NYRITH 0.7</small><h3>Built-in updates.<br>No more reinstalling.</h3><span>READ MORE →</span></article>
+            <article><div class="news-icon purple">ϟ</div><div><small>PERFORMANCE</small><b>Auto FPS Pack</b><p>Kompatible Optimierungen automatisch.</p></div></article>
+            <article><div class="news-icon blue">▦</div><div><small>LIBRARY</small><b>Discover Mods</b><p>Mods direkt für deine Instance.</p></div></article>
+          </aside>
         </div>
+        <div class="stage-caption"><span></span> NYRITH CLIENT PREVIEW <span></span></div>
       </div>
     </section>
 
-    <section class="manifesto section-shell" id="features">
-      <div class="eyebrow">UNSER CLIENT</div>
-      <h2>Alles was wichtig ist.<br /><em>Nichts was stört.</em></h2>
-      <p>NYRITH konzentriert sich auf genau das, was du beim Spielen wirklich brauchst: schnelle Starts, stabile Performance, saubere Profiles und Kontrolle über dein Setup.</p>
+    <section class="proof-strip reveal">
+      <div class="shell proof-grid">
+        <div><strong>1 CLICK</strong><span>Setup & Launch</span></div>
+        <div><strong>ISOLATED</strong><span>Instances</span></div>
+        <div><strong>AUTO</strong><span>FPS Optimizations</span></div>
+        <div><strong>BUILT-IN</strong><span>Mod Library</span></div>
+        <div><strong>RIGHT SHIFT</strong><span>Ingame Core</span></div>
+      </div>
     </section>
 
-    <section class="feature-grid section-shell">
-      <article class="feature-card feature-wide">
-        <div class="feature-icon">ϟ</div>
-        <div>
-          <span>01 · PERFORMANCE</span>
-          <h3>Mehr FPS. Weniger Stutter.</h3>
-          <p>Für kompatible Fabric-Instances installiert NYRITH automatisch einen abgestimmten Performance-Stack. Fehlende Mod-Versionen werden übersprungen statt dein Profil zu zerstören.</p>
-          <div class="tag-row"><b>Sodium</b><b>Lithium</b><b>FerriteCore</b><b>ImmediatelyFast</b><b>EntityCulling</b></div>
+    <section class="section-intro shell reveal" id="features">
+      <div class="section-kicker">WHY NYRITH</div>
+      <h2>Alles was du brauchst.<br><span>Nichts was dich nervt.</span></h2>
+      <p>NYRITH soll kein Launcher sein, den du vor Minecraft noch verwalten musst. Er soll dein Setup vorbereiten, sauber halten und dann aus dem Weg gehen.</p>
+    </section>
+
+    <section class="bento shell">
+      <article class="bento-card bento-performance reveal">
+        <div class="card-top"><span class="card-number">01</span><span class="card-chip">PERFORMANCE</span></div>
+        <div class="speed-visual">
+          <div class="speed-ring"><span>ϟ</span></div>
+          <div class="speed-lines"><i></i><i></i><i></i><i></i><i></i></div>
         </div>
+        <h3>Mehr Frames.<br>Weniger Stutter.</h3>
+        <p>NYRITH installiert für kompatible Fabric-Instances automatisch einen abgestimmten Performance-Stack.</p>
+        <div class="mod-pills"><span>Sodium</span><span>Lithium</span><span>FerriteCore</span><span>ImmediatelyFast</span></div>
       </article>
 
-      <article class="feature-card">
-        <div class="feature-icon">▤</div>
-        <span>02 · INSTANCES</span>
-        <h3>Jedes Setup sauber getrennt.</h3>
-        <p>Eigene Mods, Saves, Settings, Resourcepacks und Shader für jede Version. PvP bleibt PvP. SMP bleibt SMP.</p>
+      <article class="bento-card bento-instance reveal">
+        <div class="card-top"><span class="card-number">02</span><span class="card-chip">INSTANCES</span></div>
+        <div class="instance-stack">
+          <div class="stack-card back"><i>P</i><span><b>PvP</b><small>1.21.11 · Fabric</small></span></div>
+          <div class="stack-card middle"><i>S</i><span><b>SMP</b><small>1.21.11 · Fabric</small></span></div>
+          <div class="stack-card front"><i>N</i><span><b>Main</b><small>1.21.11 · Optimized</small></span><em>READY</em></div>
+        </div>
+        <h3>Ein Setup pro Zweck.</h3>
+        <p>Mods, Saves, Settings, Packs und Shader bleiben sauber voneinander getrennt.</p>
       </article>
 
-      <article class="feature-card">
-        <div class="feature-icon">▦</div>
-        <span>03 · LIBRARY</span>
-        <h3>Mods direkt im Client.</h3>
-        <p>Modrinth, CurseForge, GitHub Releases und lokale JAR-Dateien in einer Oberfläche statt zehn Browser-Tabs.</p>
+      <article class="bento-card bento-library reveal" id="library">
+        <div class="card-top"><span class="card-number">03</span><span class="card-chip">LIBRARY</span></div>
+        <div class="mini-library">
+          <div class="mini-search">Search mods... <span>⌕</span></div>
+          <div class="mini-mod"><i class="mod-sodium">S</i><span><b>Sodium</b><small>Performance</small></span><button>INSTALL</button></div>
+          <div class="mini-mod"><i class="mod-iris">I</i><span><b>Iris Shaders</b><small>Visual</small></span><button>INSTALL</button></div>
+          <div class="mini-mod"><i class="mod-lithium">L</i><span><b>Lithium</b><small>Optimization</small></span><button>INSTALLED</button></div>
+        </div>
+        <h3>Mods ohne Browser-Chaos.</h3>
+        <p>Modrinth, GitHub Releases und lokale JARs direkt in der richtigen Instance.</p>
       </article>
 
-      <article class="feature-card">
-        <div class="feature-icon">☻</div>
-        <span>04 · ACCOUNT</span>
-        <h3>Dein Minecraft Account.</h3>
-        <p>NYRITH ist für legitime Minecraft Java Accounts gebaut. Der direkte Microsoft-Login wird über den offiziellen OAuth-Flow angebunden.</p>
-      </article>
-
-      <article class="feature-card">
-        <div class="feature-icon">⌁</div>
-        <span>05 · CONTENT</span>
-        <h3>Resourcepacks & Shader.</h3>
-        <p>Importiere deine Packs direkt in die richtige Instance und öffne die zugehörigen Ordner mit einem Klick.</p>
+      <article class="bento-card bento-core reveal">
+        <div class="card-top"><span class="card-number">04</span><span class="card-chip">NYRITH CORE</span></div>
+        <div class="hud-preview">
+          <div class="hud-game"><span class="hud-cross">+</span><span class="hud-title">NYRITH <i>|</i> 487 FPS</span><span class="hud-coords">XYZ 128 / 67 / -42</span></div>
+          <div class="hud-key">RIGHT SHIFT</div>
+        </div>
+        <h3>Dein Client. Direkt ingame.</h3>
+        <p>HUD, Koordinaten und Client-Einstellungen über das NYRITH Ingame-Menü.</p>
       </article>
     </section>
 
-    <section class="performance section-shell" id="performance">
+    <section class="performance-section shell reveal" id="performance">
       <div class="performance-copy">
-        <div class="eyebrow">PERFORMANCE FIRST</div>
-        <h2>Ein Klick.<br /><em>Der Rest läuft.</em></h2>
-        <p>NYRITH bereitet die Version, den Loader, Java und kompatible Optimierungen für deine Instance vor. Du konzentrierst dich aufs Spiel.</p>
-        <div class="performance-badges"><span>Automatic Java</span><span>Fabric Ready</span><span>Isolated Files</span><span>Auto FPS Pack</span></div>
+        <div class="section-kicker">FROM ZERO TO PLAYING</div>
+        <h2>Du klickst Play.<br><span>NYRITH macht den Rest.</span></h2>
+        <p>Version, Java, Loader, Instance-Verzeichnisse und kompatible Optimierungen werden für dich vorbereitet.</p>
+        <div class="performance-stats">
+          <div><b>Java</b><span>Auto Runtime</span></div>
+          <div><b>Fabric</b><span>Auto Setup</span></div>
+          <div><b>Mods</b><span>Dependency Aware</span></div>
+        </div>
       </div>
 
-      <div class="pipeline">
-        <div><b>01</b><span><strong>Instance</strong><small>Version & RAM auswählen</small></span><i>✓</i></div>
-        <div><b>02</b><span><strong>Runtime</strong><small>Java & Loader vorbereiten</small></span><i>✓</i></div>
-        <div><b>03</b><span><strong>Optimize</strong><small>Kompatible FPS-Mods installieren</small></span><i>✓</i></div>
-        <div class="pipeline-active"><b>04</b><span><strong>PLAY</strong><small>Dein Setup ist bereit</small></span><i>READY</i></div>
+      <div class="flow-card">
+        <div class="flow-line"></div>
+        <div class="flow-step done"><i>✓</i><span><small>STEP 01</small><b>INSTANCE</b><em>Version & RAM auswählen</em></span><strong>DONE</strong></div>
+        <div class="flow-step done"><i>✓</i><span><small>STEP 02</small><b>RUNTIME</b><em>Java & Loader vorbereiten</em></span><strong>DONE</strong></div>
+        <div class="flow-step done"><i>✓</i><span><small>STEP 03</small><b>OPTIMIZE</b><em>Performance Stack prüfen</em></span><strong>DONE</strong></div>
+        <div class="flow-step active"><i>▶</i><span><small>STEP 04</small><b>PLAY</b><em>Dein Minecraft ist bereit</em></span><strong>READY</strong></div>
       </div>
     </section>
 
-    <section class="control section-shell">
-      <div class="control-window">
-        <div class="control-sidebar"><span class="active">▦</span><span>▤</span><span>☻</span><span>⚙</span></div>
-        <div class="control-main">
-          <div class="control-head"><div><small>CONTENT LIBRARY</small><h3>Deine Mods. Deine Regeln.</h3></div><div class="instance-chip">Main · 1.21.11⌄</div></div>
-          <div class="control-tabs"><span class="active">MODS</span><span>RESOURCEPACKS</span><span>SHADERS</span></div>
-          <div class="mod-demo-grid">
-            <div class="mod-search"><div class="search-box">Search mods...</div><button>SEARCH</button><div class="demo-card"><i>ϟ</i><div><b>Sodium</b><small>High-performance rendering engine</small></div><button>INSTALL</button></div><div class="demo-card"><i>◈</i><div><b>Entity Culling</b><small>Hide entities you cannot see</small></div><button>INSTALL</button></div></div>
-            <aside class="installed-demo"><small>INSTALLED · 11 MODS</small><div>Sodium <b>✓</b></div><div>Lithium <b>✓</b></div><div>FerriteCore <b>✓</b></div><div>ImmediatelyFast <b>✓</b></div></aside>
-          </div>
+    <section class="comparison shell reveal">
+      <div class="comparison-card">
+        <div class="comparison-copy">
+          <span class="section-kicker">YOUR SETUP, YOUR RULES</span>
+          <h2>Keine globale<br>.minecraft-Hölle.</h2>
+          <p>Jede NYRITH-Instance lebt in ihrem eigenen Verzeichnis. Ein kaputter Mod in deinem Testprofil zerstört nicht dein PvP-Setup.</p>
+        </div>
+        <div class="folder-tree">
+          <div class="folder-root"><span>⌄</span><b>NYRITH / instances</b></div>
+          <div class="folder-branch active"><span>├─</span><i>N</i><b>Main</b><em>11 mods</em></div>
+          <div class="folder-files"><span>│&nbsp;&nbsp;├─</span><b>mods</b><em>Sodium · Lithium · Core...</em></div>
+          <div class="folder-files"><span>│&nbsp;&nbsp;├─</span><b>resourcepacks</b><em>2 packs</em></div>
+          <div class="folder-files"><span>│&nbsp;&nbsp;└─</span><b>shaderpacks</b><em>1 shader</em></div>
+          <div class="folder-branch"><span>├─</span><i>P</i><b>PvP</b><em>8 mods</em></div>
+          <div class="folder-branch"><span>└─</span><i>S</i><b>SMP</b><em>16 mods</em></div>
         </div>
       </div>
     </section>
 
-    <section class="download-section section-shell" id="download">
-      <div class="download-halo"></div>
-      <span class="eyebrow">READY WHEN YOU ARE</span>
-      <h2>Dein Minecraft.<br /><em>Dein NYRITH.</em></h2>
-      <p>Einmal installieren. Danach hält dich der integrierte Updater auf dem aktuellen Stand.</p>
-      <a class="cta primary huge js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest"><span>↓</span> Download for Windows</a>
-      <div class="download-info"><span>Windows x64</span><i></i><span class="js-version">Latest Alpha</span><i></i><span>~100 MB</span></div>
+    <section class="download-section shell reveal" id="download">
+      <div class="download-grid"></div>
+      <div class="download-orb"></div>
+      <span class="section-kicker">READY WHEN YOU ARE</span>
+      <h2>Einmal installieren.<br><span>Dann einfach spielen.</span></h2>
+      <p>NYRITH prüft über den öffentlichen Release-Kanal auf neue Client-Versionen. Sobald ein Update bereitsteht, bekommst du es direkt im Client.</p>
+      <a class="button button-primary button-xl js-download" href="https://github.com/Away232323/NYRITH-Client-Releases/releases/latest"><span class="download-icon">↓</span><b>Download for Windows</b></a>
+      <div class="release-card">
+        <span><i class="dot green"></i> <b id="releaseStatus">Public Alpha</b></span>
+        <span class="js-version">Latest Alpha</span>
+        <span id="releaseSize">Windows x64</span>
+      </div>
     </section>
 
-    <section class="faq section-shell" id="faq">
-      <div class="faq-heading"><span class="eyebrow">FAQ</span><h2>Wichtige Fragen.</h2></div>
+    <section class="faq shell reveal" id="faq">
+      <div class="faq-copy">
+        <span class="section-kicker">FAQ</span>
+        <h2>Noch Fragen?</h2>
+        <p>Die wichtigsten Sachen bevor du NYRITH installierst.</p>
+      </div>
       <div class="faq-list">
-        <details><summary>Brauche ich Minecraft Java gekauft?</summary><p>Ja. NYRITH ist für legitime Minecraft Java Edition Accounts gedacht und enthält keine Minecraft-Spieldateien als Ersatz für einen Kauf.</p></details>
-        <details><summary>Brauche ich Java selbst zu installieren?</summary><p>Normalerweise nicht. NYRITH kann für unterstützte Minecraft-Versionen automatisch die passende Java-Hauptversion vorbereiten.</p></details>
-        <details><summary>Kann ich meine eigenen Mods benutzen?</summary><p>Ja. Du kannst kompatible Mods aus der Library installieren oder lokale .jar-Dateien direkt in eine Instance importieren.</p></details>
-        <details><summary>Muss ich für jedes Update neu downloaden?</summary><p>Nein. Sobald der öffentliche Release-Kanal verbunden ist, prüft NYRITH selbst auf neue Releases und kann Updates direkt im Client laden und installieren.</p></details>
+        <details><summary>Brauche ich Minecraft Java gekauft?<span>+</span></summary><p>Ja. NYRITH ist für legitime Minecraft Java Edition Accounts gedacht und ersetzt keinen Minecraft-Kauf.</p></details>
+        <details><summary>Muss ich Java selbst installieren?<span>+</span></summary><p>Für unterstützte Versionen kann NYRITH automatisch die passende Java-Hauptversion vorbereiten.</p></details>
+        <details><summary>Kann ich meine eigenen Mods benutzen?<span>+</span></summary><p>Ja. Du kannst Mods über die Library installieren oder lokale kompatible .jar-Dateien direkt in eine Instance importieren.</p></details>
+        <details><summary>Muss ich Updates immer neu herunterladen?<span>+</span></summary><p>Der Client besitzt einen integrierten Updater. Sobald der öffentliche Release-Kanal vollständig verbunden ist, können neue Builds direkt aus NYRITH geladen und installiert werden.</p></details>
+        <details><summary>Ist NYRITH schon fertig?<span>+</span></summary><p>Nein. NYRITH befindet sich aktuell in einer Alpha-Phase. Features und Kompatibilität werden weiter ausgebaut.</p></details>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="footer-inner">
-      <a class="brand" href="#top"><span class="bolt">ϟ</span><span class="brand-copy"><b>NYRITH</b><small>CLIENT</small></span></a>
-      <p>NYRITH ist kein offizielles Minecraft-Produkt und ist nicht mit Mojang oder Microsoft verbunden.</p>
-      <span>© <b id="year"></b> NYRITH</span>
+    <div class="footer-shell shell">
+      <div class="footer-brand"><span class="brand-mark">ϟ</span><div><b>NYRITH</b><small>CLIENT</small></div></div>
+      <p>Ein unabhängiger Minecraft Java Client. Nicht mit Mojang oder Microsoft verbunden.</p>
+      <div class="footer-right"><span>© <b id="year"></b> NYRITH</span><a href="#top">BACK TO TOP ↑</a></div>
     </div>
   </footer>
 
