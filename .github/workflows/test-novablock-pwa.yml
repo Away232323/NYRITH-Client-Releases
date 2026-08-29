@@ -19,33 +19,43 @@ jobs:
       - name: Wait for Pages propagation
         run: sleep 20
 
-      - name: Test standalone PWA shell
+      - name: Test V4 shell
         shell: bash
         run: |
           set -euxo pipefail
           BASE='https://away232323.github.io/NYRITH-Client-Releases/NovaBlock/'
-          curl --retry 8 --retry-delay 3 -fsSL "${BASE}?ci=1" -o index.html
+          curl --retry 8 --retry-delay 3 -fsSL "${BASE}?ci=4" -o index.html
           grep -q 'Nova Studios' index.html
-          grep -q 'nova-block-splash.svg' index.html
-          grep -q 'game.js?v=3' index.html
+          grep -q 'game.js?v=4' index.html
+          grep -q 'SHOP' index.html
+          grep -q 'RANKING' index.html
+          grep -q 'CLASSIC' index.html
+          grep -q 'RUSH' index.html
+          grep -q 'DAILY' index.html
           ! grep -q 'chatgpt.site' index.html
           ! grep -qi 'Weiter mit ChatGPT' index.html
 
-      - name: Test PWA assets and manifest
+      - name: Test V4 assets and game features
         shell: bash
         run: |
           set -euxo pipefail
           BASE='https://away232323.github.io/NYRITH-Client-Releases/NovaBlock/'
           for asset in game.css game.js app-icon.svg nova-studios.svg nova-block-splash.svg manifest.webmanifest sw.js; do
-            curl --retry 8 --retry-delay 3 -fsSL "${BASE}${asset}?ci=1" -o "$asset"
+            curl --retry 8 --retry-delay 3 -fsSL "${BASE}${asset}?ci=4" -o "$asset"
             test "$(stat -c%s "$asset")" -gt 100
           done
           grep -q '"name": "Nova Block"' manifest.webmanifest
-          grep -q 'app-icon.svg' manifest.webmanifest
-          grep -q 'nova-block-pwa-v4' sw.js
+          grep -q 'nova-block-pwa-v5' sw.js
           grep -q 'PERFECT CLEAR' game.js
-          grep -q "break(lines=1)" game.js
-          grep -q 'themeFlash' game.css
+          grep -q 'renderShop' game.js
+          grep -q 'renderRanking' game.js
+          grep -q 'useShuffle' game.js
+          grep -q 'useBlast' game.js
+          grep -q "currentMode==='rush'" game.js
+          grep -q 'Daily Run' game.js
+          grep -q 'shopCard' game.css
+          grep -q 'rankPanel' game.css
+          grep -q 'clearCell' game.css
           node --check game.js
 
       - name: Verify no external login dependency
@@ -53,4 +63,4 @@ jobs:
         run: |
           set -euxo pipefail
           ! grep -RqiE 'chatgpt\.site|oauth|Weiter mit ChatGPT|sign[ -]?in|login' index.html game.js game.css manifest.webmanifest sw.js
-          echo 'Nova Block runs standalone without an external login dependency.'
+          echo 'Nova Block V4 is standalone and includes menu, shop, ranking, modes and boosters.'
