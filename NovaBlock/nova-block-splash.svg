@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280">
+<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#173cb8"/><stop offset="1" stop-color="#12a1ed"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#052a70" flood-opacity=".7"/></filter></defs>
+<rect width="720" height="1280" fill="url(#b)"/>
+<g transform="translate(280 310)" stroke="#ffffff70" stroke-width="2"><rect x="0" y="0" width="66" height="66" rx="13" fill="#ff3d83"/><rect x="72" y="0" width="41" height="66" rx="11" fill="#ff3d83"/><rect x="0" y="72" width="66" height="66" rx="13" fill="#6ee81f"/><rect x="72" y="72" width="66" height="66" rx="13" fill="#6ee81f"/><path d="M130 62 174 106 132 148 88 104Z" fill="#ff3d83"/><rect x="190" y="0" width="66" height="66" rx="13" fill="#ffbf12"/><rect x="190" y="72" width="66" height="66" rx="13" fill="#31b9ff"/></g>
+<g filter="url(#s)" font-family="Arial Black,Arial,sans-serif" font-weight="900">
+ <text x="360" y="610" text-anchor="middle" font-size="138"><tspan fill="#ff3d83">N</tspan><tspan fill="#ffbe12">O</tspan><tspan fill="#63e723">V</tspan><tspan fill="#31b9ff">A</tspan></text>
+ <text x="360" y="760" text-anchor="middle" font-size="128" fill="#f5f7ff">BLOCK</text>
+</g>
+</svg>
