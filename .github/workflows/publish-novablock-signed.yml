@@ -20,19 +20,37 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Rebuild exact signed APK
+      - name: Rebuild and verify exact signed APK
         shell: bash
         run: |
           set -euo pipefail
-          cat NovaBlock/publish/part00.b64 \
-              NovaBlock/publish/part01.b64 \
-              NovaBlock/publish/part02.b64 \
-              NovaBlock/publish/part03.b64 \
-              NovaBlock/publish/part04.b64 \
-              NovaBlock/publish/part05.b64 | base64 -d > NovaBlock/NovaBlock-1.0.0.apk
-          cp NovaBlock/NovaBlock-1.0.0.apk NovaBlock/NovaBlock-latest.apk
-          echo '68dd8d34320ec751714459a74f85c373922a69f9ec08c57120fc245f24ba6ba9  NovaBlock/NovaBlock-1.0.0.apk' | sha256sum -c -
-          echo '68dd8d34320ec751714459a74f85c373922a69f9ec08c57120fc245f24ba6ba9  NovaBlock/NovaBlock-latest.apk' | sha256sum -c -
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, hashlib
+          p = Path('NovaBlock/publish')
+          r = lambda name: (p / name).read_text()
+          b64 = ''.join([
+              r('part00.b64'),
+              r('part01.b64'),
+              r('s00.b64'),
+              r('s01.b64'),
+              r('s02.b64'),
+              r('s03.b64'),
+              'A' * 784 + r('s04-suffix.b64'),
+              r('s05.b64'),
+              r('s06-prefix.b64') + 'A' * 1008,
+              'A' * 213 + r('s07-suffix.b64'),
+          ])
+          assert len(b64) == 22708, len(b64)
+          apk = base64.b64decode(b64, validate=True)
+          expected = '68dd8d34320ec751714459a74f85c373922a69f9ec08c57120fc245f24ba6ba9'
+          actual = hashlib.sha256(apk).hexdigest()
+          assert actual == expected, (actual, expected)
+          assert len(apk) == 17031, len(apk)
+          Path('NovaBlock/NovaBlock-1.0.0.apk').write_bytes(apk)
+          Path('NovaBlock/NovaBlock-latest.apk').write_bytes(apk)
+          print('Verified SHA-256:', actual)
+          PY
 
       - name: Commit exact APK files
         shell: bash
@@ -41,6 +59,6 @@ jobs:
           rm -rf NovaBlock/publish
           git config user.name 'Away232323'
           git config user.email 'actions@users.noreply.github.com'
-          git add NovaBlock/NovaBlock-1.0.0.apk NovaBlock/NovaBlock-latest.apk NovaBlock/publish || true
-          git commit -m 'Fix published Nova Block 1.0.0 APK bytes' || exit 0
+          git add -A NovaBlock
+          git commit -m 'Publish verified Nova Block 1.0.0 APK' || exit 0
           git push origin HEAD:main
