@@ -3,66 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#0a0c14">
+  <meta name="theme-color" content="#185fd7">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Nova Block">
+  <meta name="description" content="Nova Block – das juicy Block-Puzzle-Game von Nova Studios.">
   <title>Nova Block</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <style>
-    :root{color-scheme:dark;--bg:#080a12;--panel:#111521;--line:#ffffff17;--pink:#ff2d60;--text:#f7f8fc;--muted:#aab2c3}
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{width:100%;height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);overflow:hidden}
-    body{overscroll-behavior:none}
-    #app{position:fixed;inset:0;background:var(--bg)}
-    #game{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg);display:block}
-    #loader{position:absolute;inset:0;z-index:4;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#171b2a 0,#080a12 55%);transition:opacity .25s}
-    #loader.hide{opacity:0;pointer-events:none}
-    .brand{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
-    .logo{width:82px;height:82px;border-radius:22px;box-shadow:0 18px 60px #0008}
-    .brand h1{margin:0;font-size:28px;letter-spacing:-1px}
-    .brand p{margin:0;color:var(--muted);font-size:13px}
-    .dots{display:flex;gap:7px;margin-top:6px}.dots i{width:7px;height:7px;border-radius:50%;background:var(--pink);animation:b 1s infinite alternate}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
-    @keyframes b{to{opacity:.25;transform:translateY(4px)}}
-    #installSheet{position:absolute;z-index:8;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));padding:14px;border:1px solid var(--line);border-radius:22px;background:#10141eee;backdrop-filter:blur(18px);box-shadow:0 18px 50px #0009;display:none;align-items:center;gap:12px}
-    #installSheet.show{display:flex}
-    #installSheet img{width:48px;height:48px;border-radius:13px;flex:0 0 auto}
-    .installText{min-width:0;flex:1}.installText strong{display:block;font-size:15px}.installText span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-    button{border:0;border-radius:13px;padding:11px 14px;font-weight:800;font-size:13px;color:white;background:var(--pink);white-space:nowrap}
-    #fallback{position:absolute;z-index:7;right:10px;top:max(10px,env(safe-area-inset-top));display:none}
-    #fallback button{background:#10141ecc;border:1px solid var(--line);font-size:12px}
-    #toast{position:absolute;z-index:20;left:50%;top:max(14px,env(safe-area-inset-top));transform:translate(-50%,-140%);padding:10px 14px;border-radius:14px;background:#151a26ed;border:1px solid var(--line);font-size:12px;font-weight:700;transition:.2s;box-shadow:0 8px 30px #0008;max-width:90vw;text-align:center}
-    #toast.show{transform:translate(-50%,0)}
-    @media(display-mode:standalone){#installSheet{display:none!important}}
-  </style>
+  <link rel="stylesheet" href="./game.css?v=3">
 </head>
 <body>
-<div id="app">
-  <iframe id="game" src="https://block-nova-game.damianmischitz12.chatgpt.site" title="Nova Block" allow="autoplay; fullscreen; gamepad; clipboard-write" allowfullscreen></iframe>
-  <div id="loader"><div class="brand"><img class="logo" src="./icon-192.png" alt=""><h1>Nova Block</h1><p>Game wird geladen …</p><div class="dots"><i></i><i></i><i></i></div></div></div>
-  <div id="fallback"><button id="openDirect">Game direkt öffnen</button></div>
-  <div id="installSheet"><img src="./icon-192.png" alt=""><div class="installText"><strong>Nova Block installieren</strong><span>Wie eine App · keine APK nötig</span></div><button id="installBtn">INSTALLIEREN</button></div>
-  <div id="toast"></div>
-</div>
-<script>
-(() => {
-  const game=document.getElementById('game'), loader=document.getElementById('loader'), installSheet=document.getElementById('installSheet'), installBtn=document.getElementById('installBtn'), fallback=document.getElementById('fallback'), openDirect=document.getElementById('openDirect'), toast=document.getElementById('toast');
-  const GAME_URL='https://block-nova-game.damianmischitz12.chatgpt.site';
-  let deferredPrompt=null;
-  function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.remove('show'),2400)}
-  function isStandalone(){return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
-  game.addEventListener('load',()=>{setTimeout(()=>loader.classList.add('hide'),450);setTimeout(()=>fallback.style.display='block',3500)});
-  setTimeout(()=>loader.classList.add('hide'),5000);
-  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!isStandalone())installSheet.classList.add('show')});
-  installBtn.addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();const choice=await deferredPrompt.userChoice;if(choice.outcome==='accepted'){installSheet.classList.remove('show');showToast('Nova Block wird installiert ✅')}deferredPrompt=null}else{showToast('Chrome-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“')}});
-  window.addEventListener('appinstalled',()=>{installSheet.classList.remove('show');showToast('Nova Block ist installiert ✅')});
-  openDirect.addEventListener('click',()=>location.href=GAME_URL);
-  if(!isStandalone())setTimeout(()=>{if(!deferredPrompt)installSheet.classList.add('show')},1800);
-  if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-})();
-</script>
+  <div id="app">
+    <section id="studioSplash" class="splash active" aria-label="Nova Studios">
+      <img src="./nova-studios.webp" alt="Nova Studios">
+    </section>
+    <section id="gameSplash" class="splash" aria-label="Nova Block">
+      <img src="./nova-block-splash.webp" alt="Nova Block">
+    </section>
+
+    <main id="gameScreen" class="screen hidden">
+      <header class="hud">
+        <button class="iconBtn" id="soundBtn" aria-label="Sound an oder aus">🔊</button>
+        <div class="scoreWrap">
+          <span>SCORE</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="bestWrap">
+          <span>BEST</span>
+          <strong id="best">0</strong>
+        </div>
+        <button class="iconBtn" id="pauseBtn" aria-label="Pause">Ⅱ</button>
+      </header>
+
+      <div id="themeBadge" class="themeBadge">OCEAN</div>
+      <div id="combo" class="combo"></div>
+      <div id="boardWrap" class="boardWrap">
+        <div id="board" class="board" aria-label="Spielfeld"></div>
+        <div id="particles" class="particles" aria-hidden="true"></div>
+      </div>
+
+      <section id="tray" class="tray" aria-label="Blöcke"></section>
+      <div class="hint">Zieh einen Block aufs Feld</div>
+    </main>
+
+    <section id="pauseOverlay" class="overlay hidden">
+      <div class="modal">
+        <img class="modalLogo" src="./icon-192.png" alt="">
+        <h2>PAUSE</h2>
+        <button id="resumeBtn" class="primary">WEITERSPIELEN</button>
+        <button id="restartBtn" class="secondary">NEU STARTEN</button>
+      </div>
+    </section>
+
+    <section id="gameOverOverlay" class="overlay hidden">
+      <div class="modal">
+        <img class="modalLogo" src="./icon-192.png" alt="">
+        <h2>GAME OVER</h2>
+        <p>Score <strong id="finalScore">0</strong></p>
+        <button id="againBtn" class="primary">NOCHMAL</button>
+      </div>
+    </section>
+
+    <div id="installCard" class="installCard hidden">
+      <img src="./icon-192.png" alt="">
+      <div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div>
+      <button id="installBtn">INSTALLIEREN</button>
+      <button id="installClose" class="closeBtn">×</button>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </div>
+  <script src="./game.js?v=3"></script>
 </body>
 </html>
