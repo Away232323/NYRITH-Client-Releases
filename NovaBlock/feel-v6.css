@@ -1,0 +1,108 @@
+/* Nova Block V6 — game feel & performance pass */
+:root{--ease-pop:cubic-bezier(.18,1.45,.35,1);--ease-hit:cubic-bezier(.2,.8,.2,1)}
+.game .boardWrap{will-change:transform;contain:layout paint style;filter:drop-shadow(0 14px 24px #00184e55)}
+.board{contain:layout paint style}
+.cell,.piece,.moving,.frag,.scorePunch{will-change:transform,opacity}
+.cell.filled{
+  background:
+    linear-gradient(145deg,#ffffff35 0 14%,transparent 15%),
+    linear-gradient(145deg,color-mix(in srgb,var(--block) 86%,white),var(--block) 48%,color-mix(in srgb,var(--block) 72%,#001134));
+  box-shadow:inset 0 3px 1px #ffffff88,inset 2px 0 1px #ffffff34,inset 0 -5px 2px #0003,inset -2px 0 2px #0002,0 3px 5px #00133f55
+}
+.cell.slam{animation:v6Slam .26s var(--ease-pop) var(--slam-delay,0ms) both}
+@keyframes v6Slam{
+  0%{transform:translateY(-7px) scale(.72,.82);filter:brightness(1.45)}
+  56%{transform:translateY(2px) scale(1.09,.94)}
+  78%{transform:translateY(-1px) scale(.98,1.03)}
+  100%{transform:translateY(0) scale(1)}
+}
+.boardWrap.microKick{animation:v6MicroKick .11s ease-out}
+@keyframes v6MicroKick{0%{transform:translateY(0)}35%{transform:translateY(2px) scale(.998)}100%{transform:translateY(0)}}
+
+.piece.moving{
+  position:fixed;z-index:120;pointer-events:none;margin:0;
+  transform-origin:center;filter:drop-shadow(0 16px 11px #00143b70);
+  transition:none!important
+}
+.piece.moving .mini{transform:scale(1.06);box-shadow:inset 0 3px 1px #ffffff91,inset 0 -4px 2px #0002,0 5px 7px #00134866}
+.piece.dropAway{opacity:0!important;transition:opacity .08s ease!important}
+.cell.ghost{animation:v6GhostPulse .5s ease-in-out infinite alternate}
+@keyframes v6GhostPulse{from{filter:brightness(1);transform:scale(.91)}to{filter:brightness(1.22);transform:scale(.95)}}
+
+.cell.preClear{
+  z-index:5;animation:v6Charge .13s ease var(--clear-delay,0ms) both;
+  box-shadow:inset 0 0 0 2px #fff9,0 0 12px #fff8
+}
+@keyframes v6Charge{0%{transform:scale(1);filter:brightness(1)}100%{transform:scale(1.1);filter:brightness(2.4)}}
+.cell.clearing{
+  z-index:8;animation:v6Burst .27s cubic-bezier(.12,.7,.22,1) forwards!important;
+}
+@keyframes v6Burst{
+  0%{transform:scale(1.12);opacity:1;filter:brightness(2.7) saturate(1.2)}
+  32%{transform:scale(1.28,.82) rotate(-2deg);opacity:1}
+  62%{transform:scale(.72,1.18) rotate(5deg);opacity:.9}
+  100%{transform:scale(.08) rotate(18deg);opacity:0;filter:brightness(3)}
+}
+.clearFlash.pulse{animation:v6LineFlash .26s ease-out}
+@keyframes v6LineFlash{0%{opacity:0}24%{opacity:.62;background:#fff}100%{opacity:0}}
+.boardWrap.impactShake{animation:v6ImpactShake .25s linear}
+@keyframes v6ImpactShake{
+  0%,100%{transform:translate3d(0,0,0)}
+  18%{transform:translate3d(-4px,1px,0)}
+  36%{transform:translate3d(5px,-1px,0)}
+  54%{transform:translate3d(-3px,1px,0)}
+  72%{transform:translate3d(2px,0,0)}
+}
+
+.v6frag{
+  width:9px!important;height:9px!important;border-radius:2px!important;
+  box-shadow:inset 0 2px #ffffff77,0 1px 2px #00173e55!important;
+  animation:v6Frag .56s cubic-bezier(.12,.58,.3,1) forwards!important
+}
+@keyframes v6Frag{
+  0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1}
+  58%{opacity:1}
+  100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.35) rotate(var(--rot));opacity:0}
+}
+
+.scorePunch{
+  position:absolute;z-index:45;left:50%;top:44%;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.45);opacity:0;
+  font-size:24px;font-weight:1000;letter-spacing:-.5px;color:#fff;
+  text-shadow:0 3px 0 #07459f,0 0 14px #fff8
+}
+.scorePunch.go{animation:v6Score .7s var(--ease-pop) forwards}
+.scorePunch.big{font-size:31px;color:#ffe35b;text-shadow:0 3px 0 #a84a00,0 0 18px #fff5}
+.scorePunch.perfect{font-size:30px;color:#fff48a;white-space:nowrap;text-shadow:0 3px 0 #9b5200,0 0 22px #fff}
+@keyframes v6Score{
+  0%{opacity:0;transform:translate(-50%,-20%) scale(.35)}
+  22%{opacity:1;transform:translate(-50%,-52%) scale(1.18)}
+  65%{opacity:1;transform:translate(-50%,-74%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-125%) scale(.92)}
+}
+
+.combo.show{animation:v6Combo .72s var(--ease-pop)!important}
+@keyframes v6Combo{
+  0%{opacity:0;transform:translate(-50%,10px) scale(.35)}
+  22%{opacity:1;transform:translate(-50%,-2px) scale(1.28) rotate(-2deg)}
+  48%{opacity:1;transform:translate(-50%,-6px) scale(.98) rotate(1deg)}
+  78%{opacity:1;transform:translate(-50%,-10px) scale(1.04)}
+  100%{opacity:0;transform:translate(-50%,-30px) scale(.9)}
+}
+.themeFlash.v6{background:radial-gradient(circle,#ffffff72,transparent 58%);animation:v6ThemeFlash .88s ease}
+.themeFlash.v6 strong,.themeFlash.v6 span{display:block;text-align:center}
+.themeFlash.v6 strong{font-size:38px}
+.themeFlash.v6 span{font-size:11px;letter-spacing:3px;margin-top:5px}
+@keyframes v6ThemeFlash{0%{opacity:0}20%{opacity:1}76%{opacity:1}100%{opacity:0}}
+
+.lowPower .profilePill,.lowPower .currency,.lowPower .bottomNav,.lowPower .installCard,.lowPower .overlay{backdrop-filter:none!important}
+.lowPower .boardWrap{filter:none}
+.lowPower .cell.filled{box-shadow:inset 0 2px 1px #ffffff70,inset 0 -4px 1px #0002,0 2px 3px #00133f45}
+.lowPower .v6frag{box-shadow:none!important}
+.lowPower .shopCard,.lowPower .modeBtn{box-shadow:inset 0 1px #ffffff25,0 4px 10px #04296030}
+@media(max-height:760px){
+  .boardWrap{width:min(90vw,420px)!important}
+  .tray{height:112px!important;margin-top:5px!important}
+  .pieceSlot{height:104px!important}
+  .boosterBar{margin-top:2px!important}
+}
