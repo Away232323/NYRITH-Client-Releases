@@ -13,7 +13,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./game.css?v=4">
+  <link rel="stylesheet" href="./game.css?v=5">
 </head>
 <body>
 <div id="app">
@@ -28,8 +28,11 @@
     </header>
 
     <section class="hero">
-      <img src="./nova-block-splash.svg" class="menuLogo" alt="Nova Block">
-      <p>BLOCK PUZZLE • NOVA STUDIOS</p>
+      <div class="brandMark">
+        <img src="./app-icon.svg" class="brandIcon" alt="Nova Block">
+        <div class="brandWords"><strong>NOVA</strong><b>BLOCK</b></div>
+      </div>
+      <p>PUZZLE • COMBOS • PERFECT CLEARS</p>
     </section>
 
     <section class="dailyCard">
@@ -41,7 +44,7 @@
     <section class="modeStack">
       <button class="modeBtn classic" data-mode="classic"><span class="modeIcon">∞</span><div><strong>CLASSIC</strong><small>Endlos • Highscore jagen</small></div><b>▶</b></button>
       <button class="modeBtn rush" data-mode="rush"><span class="modeIcon">⚡</span><div><strong>RUSH</strong><small>2 Minuten • x1.25 Score</small></div><b>▶</b></button>
-      <button class="modeBtn daily" data-mode="daily"><span class="modeIcon">★</span><div><strong>DAILY</strong><small>Heute gleiche Pieces für alle</small></div><b>▶</b></button>
+      <button class="modeBtn daily" data-mode="daily"><span class="modeIcon">★</span><div><strong>DAILY</strong><small>Tages-Challenge • gleiche Folge</small></div><b>▶</b></button>
     </section>
 
     <section class="quickStats">
@@ -76,7 +79,7 @@
       <div class="rankTitle"><strong>TOP 10 RUNS</strong><span>LOCAL</span></div>
       <div id="rankList"></div>
     </section>
-    <div class="globalNote"><strong>🌍 GLOBAL RANKING</strong><span>Für echte weltweite Spieler braucht Nova Block als Nächstes einen kleinen Online-Backend-Service. Hier werden keine Fake-Spieler angezeigt.</span></div>
+    <div class="globalNote"><strong>🌍 GLOBAL RANKING</strong><span>Die lokale Rangliste zeigt echte Runs auf deinem Gerät. Eine weltweite Rangliste kommt mit einem Online-Backend.</span></div>
     <nav class="bottomNav">
       <button class="navBtn" data-screen="home"><span>⌂</span><small>HOME</small></button>
       <button class="navBtn" data-screen="shop"><span>◆</span><small>SHOP</small></button>
@@ -115,6 +118,6 @@
   <div id="installCard" class="installCard hidden"><img src="./app-icon.svg" alt=""><div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div><button id="installBtn">INSTALLIEREN</button><button id="installClose" class="closeBtn">×</button></div>
   <div id="toast" class="toast"></div>
 </div>
-<script src="./game.js?v=4"></script>
+<script src="./game.js?v=5"></script>
 </body>
 </html>
