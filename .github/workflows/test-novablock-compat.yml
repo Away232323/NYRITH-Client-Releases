@@ -1,4 +1,4 @@
-name: Test Nova Block Compat on Android 10
+name: Test Nova Block 1.0.3 across Android
 
 on:
   push:
@@ -12,7 +12,24 @@ permissions:
 
 jobs:
   install-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 29
+            arch: x86_64
+            label: Android-10
+          - api: 30
+            arch: x86_64
+            label: Android-11
+          - api: 33
+            arch: x86_64
+            label: Android-13
+          - api: 35
+            arch: x86_64
+            label: Android-15
     runs-on: ubuntu-latest
+    name: ${{ matrix.label }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,17 +40,19 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Download compat build artifact
+      - name: Download exact 1.0.3 unsigned build
         uses: actions/download-artifact@v4
         with:
           name: NovaBlock-build-1.0.1
-          run-id: 33258313546
+          run-id: 33258866622
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: dist
 
-      - name: Sign test APK with v1 and v2
+      - name: Inspect and sign APK
         run: |
-          keytool -genkeypair -v -keystore test-release.jks -storepass TestNovaBlock2026 -keypass TestNovaBlock2026 -alias test -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 3650 -dname "CN=Nova Block Android 10 Test, O=Away23"
+          set -euxo pipefail
+          ls -lah dist
+          keytool -genkeypair -v -keystore test-release.jks -storepass TestNovaBlock2026 -keypass TestNovaBlock2026 -alias test -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 3650 -dname "CN=Nova Block Multi Android Test, O=Away23"
           java -jar dist/sign-tools/lib/apksigner.jar sign \
             --ks test-release.jks \
             --ks-key-alias test \
@@ -41,23 +60,29 @@ jobs:
             --key-pass pass:TestNovaBlock2026 \
             --v1-signing-enabled true \
             --v2-signing-enabled true \
-            --v3-signing-enabled false \
+            --v3-signing-enabled true \
             --v4-signing-enabled false \
-            --out dist/NovaBlock-Android10-test.apk \
+            --out dist/NovaBlock-1.0.3-test.apk \
             dist/NovaBlock-1.0.1-unsigned.apk
-          java -jar dist/sign-tools/lib/apksigner.jar verify --verbose dist/NovaBlock-Android10-test.apk
+          java -jar dist/sign-tools/lib/apksigner.jar verify --verbose --print-certs dist/NovaBlock-1.0.3-test.apk
+          unzip -t dist/NovaBlock-1.0.3-test.apk
+          sha256sum dist/NovaBlock-1.0.3-test.apk
 
-      - name: Install and launch on Android 10
+      - name: Install and launch
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          arch: x86_64
+          api-level: ${{ matrix.api }}
+          arch: ${{ matrix.arch }}
           profile: pixel_2
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            adb install -r dist/NovaBlock-Android10-test.apk
+            set -euxo pipefail
+            adb shell getprop ro.build.version.release
+            adb shell getprop ro.build.version.sdk
+            adb install -r dist/NovaBlock-1.0.3-test.apk
             adb shell pm path at.away23.novablock.compat
+            adb shell dumpsys package at.away23.novablock.compat | grep -E 'versionCode|versionName|targetSdk|minSdk' | head -10
             adb shell am start -W -n at.away23.novablock.compat/.MainActivity
-            sleep 3
+            sleep 4
             adb shell pidof at.away23.novablock.compat
