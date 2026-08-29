@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   build:
@@ -49,7 +50,7 @@ jobs:
       - name: Prepare artifact and signing tools
         run: |
           mkdir -p dist/sign-tools/lib
-          cp app/build/outputs/apk/release/app-release-unsigned.apk dist/NovaBlock-1.0.1-unsigned.apk
+          cp app/build/outputs/apk/release/app-release-unsigned.apk dist/NovaBlock-1.0.4-unsigned.apk
           cp "$ANDROID_HOME/build-tools/36.0.0/zipalign" dist/sign-tools/zipalign
           cp "$ANDROID_HOME/build-tools/36.0.0/apksigner" dist/sign-tools/apksigner
           cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/sign-tools/lib/apksigner.jar
@@ -58,7 +59,77 @@ jobs:
       - name: Upload APK and signing tools
         uses: actions/upload-artifact@v4
         with:
-          name: NovaBlock-build-1.0.1
+          name: NovaBlock-build-1.0.4
           path: NovaBlockApp/dist/
           if-no-files-found: error
           retention-days: 30
+
+  install-test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 29
+            label: Android-10
+          - api: 30
+            label: Android-11
+          - api: 33
+            label: Android-13
+          - api: 35
+            label: Android-15
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    name: Install ${{ matrix.label }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: NovaBlock-build-1.0.4
+          path: dist
+
+      - name: Sign test APK
+        run: |
+          set -euxo pipefail
+          keytool -genkeypair -keystore test.jks -storepass NovaBlockTest2026 -keypass NovaBlockTest2026 -alias novablock -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 3650 -dname "CN=Nova Block Test,O=Away23"
+          java -jar dist/sign-tools/lib/apksigner.jar sign \
+            --ks test.jks \
+            --ks-key-alias novablock \
+            --ks-pass pass:NovaBlockTest2026 \
+            --key-pass pass:NovaBlockTest2026 \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            --v4-signing-enabled false \
+            --out dist/NovaBlock-1.0.4-test.apk \
+            dist/NovaBlock-1.0.4-unsigned.apk
+          java -jar dist/sign-tools/lib/apksigner.jar verify --verbose --print-certs dist/NovaBlock-1.0.4-test.apk
+          unzip -t dist/NovaBlock-1.0.4-test.apk
+
+      - name: Install and launch on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            set -euxo pipefail
+            adb shell getprop ro.build.version.release
+            adb shell getprop ro.build.version.sdk
+            adb install -r dist/NovaBlock-1.0.4-test.apk
+            adb shell pm path com.away23.novablock.mobile
+            adb shell dumpsys package com.away23.novablock.mobile | grep -E 'versionCode|versionName|targetSdk|minSdk' | head -10
+            adb shell am start -W -n com.away23.novablock.mobile/.MainActivity
+            sleep 4
+            adb shell pidof com.away23.novablock.mobile
