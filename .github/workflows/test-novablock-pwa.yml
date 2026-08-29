@@ -1,0 +1,57 @@
+name: Test Nova Block PWA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/test-novablock-pwa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wait for Pages propagation
+        run: sleep 20
+
+      - name: Test PWA shell and assets
+        shell: bash
+        run: |
+          set -euxo pipefail
+          BASE='https://away232323.github.io/NYRITH-Client-Releases/NovaBlock/'
+          curl --retry 5 --retry-delay 3 -fsSL "${BASE}" -o index.html
+          grep -q 'Nova Block' index.html
+          grep -q 'manifest.webmanifest' index.html
+          curl --retry 5 --retry-delay 3 -fsSL "${BASE}manifest.webmanifest" -o manifest.webmanifest
+          grep -q '"name": "Nova Block"' manifest.webmanifest
+          grep -q 'icon-192.png' manifest.webmanifest
+          grep -q 'icon-512.png' manifest.webmanifest
+          curl --retry 5 --retry-delay 3 -fsSL "${BASE}sw.js" -o sw.js
+          grep -q 'nova-block-pwa-v1' sw.js
+          curl --retry 5 --retry-delay 3 -fsSL "${BASE}icon-192.png" -o icon-192.png
+          curl --retry 5 --retry-delay 3 -fsSL "${BASE}icon-512.png" -o icon-512.png
+          test "$(stat -c%s icon-192.png)" -gt 500
+          test "$(stat -c%s icon-512.png)" -gt 1000
+
+      - name: Test game URL and frame policy
+        shell: bash
+        run: |
+          set -euxo pipefail
+          GAME='https://block-nova-game.damianmischitz12.chatgpt.site/'
+          curl --retry 5 --retry-delay 3 -sS -D game.headers -o game.html "$GAME"
+          test "$(stat -c%s game.html)" -gt 100
+          echo '--- relevant response headers ---'
+          grep -iE '^(HTTP/|x-frame-options:|content-security-policy:)' game.headers || true
+          if grep -qiE '^x-frame-options:[[:space:]]*(deny|sameorigin)' game.headers; then
+            echo 'Game blocks iframe embedding with X-Frame-Options.'
+            exit 1
+          fi
+          if grep -qiE 'content-security-policy:.*frame-ancestors[[:space:]]+('"'"'none'"'"'|'"'"'self'"'"')' game.headers; then
+            echo 'Game blocks iframe embedding with CSP frame-ancestors.'
+            exit 1
+          fi
+          echo 'Game URL is reachable and no blocking frame policy was detected.'
