@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071028"/><stop offset="1" stop-color="#03183b"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff3b8d"/><stop offset=".5" stop-color="#9b4dff"/><stop offset="1" stop-color="#18bfff"/></linearGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff668f"/><stop offset="1" stop-color="#f5105b"/></linearGradient>
+ <linearGradient id="yellow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe34a"/><stop offset="1" stop-color="#ffad00"/></linearGradient>
+ <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9dff27"/><stop offset="1" stop-color="#26d100"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#41cbff"/><stop offset="1" stop-color="#0872f3"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="shadow"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#000" flood-opacity=".7"/></filter>
+</defs>
+<rect x="10" y="10" width="492" height="492" rx="92" fill="url(#bg)"/>
+<rect x="18" y="18" width="476" height="476" rx="84" fill="none" stroke="url(#edge)" stroke-width="10" filter="url(#glow)"/>
+<g filter="url(#shadow)" stroke="#ffffff70" stroke-width="3">
+ <rect x="113" y="103" width="82" height="82" rx="17" fill="url(#pink)"/><rect x="201" y="103" width="50" height="82" rx="14" fill="url(#pink)"/>
+ <rect x="113" y="191" width="82" height="82" rx="17" fill="url(#pink)"/><rect x="201" y="191" width="82" height="82" rx="17" fill="url(#pink)"/>
+ <rect x="113" y="279" width="82" height="82" rx="17" fill="url(#green)"/><rect x="113" y="367" width="82" height="42" rx="13" fill="url(#green)"/><rect x="201" y="327" width="82" height="82" rx="17" fill="url(#green)"/>
+ <path d="M259 240 310 291 259 342 208 291Z" fill="url(#pink)"/><path d="M306 287 355 336 309 382 260 333Z" fill="url(#pink)"/>
+ <rect x="319" y="103" width="82" height="82" rx="17" fill="url(#yellow)"/><rect x="319" y="191" width="82" height="82" rx="17" fill="url(#yellow)"/>
+ <rect x="319" y="279" width="82" height="82" rx="17" fill="url(#blue)"/><rect x="319" y="367" width="82" height="42" rx="13" fill="url(#blue)"/>
+</g>
+<g fill="#fff" opacity=".5"><rect x="122" y="112" width="64" height="13" rx="6"/><rect x="328" y="112" width="64" height="13" rx="6"/><rect x="328" y="288" width="64" height="13" rx="6"/></g>
+</svg>
