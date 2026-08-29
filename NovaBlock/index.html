@@ -11,69 +11,37 @@
   <meta name="description" content="Nova Block – das juicy Block-Puzzle-Game von Nova Studios.">
   <title>Nova Block</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon-192.png">
+  <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="stylesheet" href="./game.css?v=3">
 </head>
 <body>
   <div id="app">
     <section id="studioSplash" class="splash active" aria-label="Nova Studios">
-      <img src="./nova-studios.webp" alt="Nova Studios">
+      <img src="./nova-studios.svg" alt="Nova Studios">
     </section>
     <section id="gameSplash" class="splash" aria-label="Nova Block">
-      <img src="./nova-block-splash.webp" alt="Nova Block">
+      <img src="./nova-block-splash.svg" alt="Nova Block">
     </section>
 
     <main id="gameScreen" class="screen hidden">
       <header class="hud">
         <button class="iconBtn" id="soundBtn" aria-label="Sound an oder aus">🔊</button>
-        <div class="scoreWrap">
-          <span>SCORE</span>
-          <strong id="score">0</strong>
-        </div>
-        <div class="bestWrap">
-          <span>BEST</span>
-          <strong id="best">0</strong>
-        </div>
+        <div class="scoreWrap"><span>SCORE</span><strong id="score">0</strong></div>
+        <div class="bestWrap"><span>BEST</span><strong id="best">0</strong></div>
         <button class="iconBtn" id="pauseBtn" aria-label="Pause">Ⅱ</button>
       </header>
-
       <div id="themeBadge" class="themeBadge">OCEAN</div>
       <div id="combo" class="combo"></div>
-      <div id="boardWrap" class="boardWrap">
-        <div id="board" class="board" aria-label="Spielfeld"></div>
-        <div id="particles" class="particles" aria-hidden="true"></div>
-      </div>
-
+      <div id="boardWrap" class="boardWrap"><div id="board" class="board" aria-label="Spielfeld"></div><div id="particles" class="particles" aria-hidden="true"></div></div>
       <section id="tray" class="tray" aria-label="Blöcke"></section>
       <div class="hint">Zieh einen Block aufs Feld</div>
     </main>
 
-    <section id="pauseOverlay" class="overlay hidden">
-      <div class="modal">
-        <img class="modalLogo" src="./icon-192.png" alt="">
-        <h2>PAUSE</h2>
-        <button id="resumeBtn" class="primary">WEITERSPIELEN</button>
-        <button id="restartBtn" class="secondary">NEU STARTEN</button>
-      </div>
-    </section>
+    <section id="pauseOverlay" class="overlay hidden"><div class="modal"><img class="modalLogo" src="./app-icon.svg" alt=""><h2>PAUSE</h2><button id="resumeBtn" class="primary">WEITERSPIELEN</button><button id="restartBtn" class="secondary">NEU STARTEN</button></div></section>
+    <section id="gameOverOverlay" class="overlay hidden"><div class="modal"><img class="modalLogo" src="./app-icon.svg" alt=""><h2>GAME OVER</h2><p>Score <strong id="finalScore">0</strong></p><button id="againBtn" class="primary">NOCHMAL</button></div></section>
 
-    <section id="gameOverOverlay" class="overlay hidden">
-      <div class="modal">
-        <img class="modalLogo" src="./icon-192.png" alt="">
-        <h2>GAME OVER</h2>
-        <p>Score <strong id="finalScore">0</strong></p>
-        <button id="againBtn" class="primary">NOCHMAL</button>
-      </div>
-    </section>
-
-    <div id="installCard" class="installCard hidden">
-      <img src="./icon-192.png" alt="">
-      <div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div>
-      <button id="installBtn">INSTALLIEREN</button>
-      <button id="installClose" class="closeBtn">×</button>
-    </div>
-
+    <div id="installCard" class="installCard hidden"><img src="./app-icon.svg" alt=""><div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div><button id="installBtn">INSTALLIEREN</button><button id="installClose" class="closeBtn">×</button></div>
     <div id="toast" class="toast"></div>
   </div>
   <script src="./game.js?v=3"></script>
