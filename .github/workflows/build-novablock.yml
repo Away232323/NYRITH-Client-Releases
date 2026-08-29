@@ -46,15 +46,19 @@ jobs:
       - name: Build unsigned release APK
         run: gradle :app:assembleRelease --stacktrace
 
-      - name: Prepare artifact
+      - name: Prepare artifact and signing tools
         run: |
-          mkdir -p dist
+          mkdir -p dist/sign-tools/lib
           cp app/build/outputs/apk/release/app-release-unsigned.apk dist/NovaBlock-1.0.0-unsigned.apk
+          cp "$ANDROID_HOME/build-tools/36.0.0/zipalign" dist/sign-tools/zipalign
+          cp "$ANDROID_HOME/build-tools/36.0.0/apksigner" dist/sign-tools/apksigner
+          cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/sign-tools/lib/apksigner.jar
+          chmod +x dist/sign-tools/zipalign dist/sign-tools/apksigner
 
-      - name: Upload unsigned APK
+      - name: Upload APK and signing tools
         uses: actions/upload-artifact@v4
         with:
-          name: NovaBlock-unsigned-1.0.0
-          path: NovaBlockApp/dist/NovaBlock-1.0.0-unsigned.apk
+          name: NovaBlock-build-1.0.0
+          path: NovaBlockApp/dist/
           if-no-files-found: error
           retention-days: 30
