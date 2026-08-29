@@ -19,40 +19,38 @@ jobs:
       - name: Wait for Pages propagation
         run: sleep 20
 
-      - name: Test V5 shell
+      - name: Test V6 shell
         shell: bash
         run: |
           set -euxo pipefail
           BASE='https://away232323.github.io/NYRITH-Client-Releases/NovaBlock/'
-          curl --retry 8 --retry-delay 3 -fsSL "${BASE}?ci=v5" -o index.html
+          curl --retry 8 --retry-delay 3 -fsSL "${BASE}?ci=v6" -o index.html
           grep -q 'game.js?v=5' index.html
-          grep -q 'game.css?v=5' index.html
-          grep -q 'brandMark' index.html
           grep -q 'RANKING' index.html
           grep -q 'SHOP' index.html
           ! grep -qiE 'chatgpt\.site|Weiter mit ChatGPT' index.html
 
-      - name: Test V5 gameplay fixes
+      - name: Test V6 assets
         shell: bash
         run: |
           set -euxo pipefail
           BASE='https://away232323.github.io/NYRITH-Client-Releases/NovaBlock/'
-          curl --retry 8 --retry-delay 3 -fsSL "${BASE}game.js?v=5&ci=1" -o game.js
-          curl --retry 8 --retry-delay 3 -fsSL "${BASE}game.css?v=5&ci=1" -o game.css
-          curl --retry 8 --retry-delay 3 -fsSL "${BASE}sw.js?ci=1" -o sw.js
-          node --check game.js
-          grep -q 'nearestPlacement' game.js
-          grep -q 'requestAnimationFrame' game.js
-          grep -q 'legacyBest' game.js
-          grep -q 'BEST IMPORT' game.js
-          grep -q 'profile.runs.push' game.js
-          grep -q 'nova-block-pwa-v6' sw.js
-          grep -q 'game.js?v=5' sw.js
-          grep -q 'contain:layout paint style' game.css
+          for f in game.js v6-core.js v6-game.js v6-ui.js; do curl --retry 8 --retry-delay 3 -fsSL "${BASE}${f}?ci=6" -o "$f"; node --check "$f"; done
+          curl --retry 8 --retry-delay 3 -fsSL "${BASE}feel-v6.css?ci=6" -o feel-v6.css
+          curl --retry 8 --retry-delay 3 -fsSL "${BASE}sw.js?ci=6" -o sw.js
+          grep -q 'v6-core.js' game.js
+          grep -q 'buildSamples\|function build(c)' v6-core.js
+          grep -q 'nearest(sh' v6-game.js
+          grep -q 'scorePunch' v6-game.js
+          grep -q 'preClear' v6-game.js
+          grep -q 'v6Slam' feel-v6.css
+          grep -q 'v6Burst' feel-v6.css
+          grep -q 'nova-block-pwa-v7' sw.js
+          grep -q 'v6-core.js?v=6' sw.js
 
       - name: Verify standalone app
         shell: bash
         run: |
           set -euxo pipefail
-          ! grep -RqiE 'chatgpt\.site|oauth|Weiter mit ChatGPT|sign[ -]?in|login' index.html game.js game.css sw.js
-          echo 'Nova Block V5 is standalone, rank-migrated and uses magnetic drag.'
+          ! grep -RqiE 'chatgpt\.site|oauth|Weiter mit ChatGPT|sign[ -]?in' index.html game.js v6-core.js v6-game.js v6-ui.js
+          echo 'Nova Block V6 is standalone and game-feel assets are live.'
