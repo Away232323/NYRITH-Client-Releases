@@ -1,0 +1,63 @@
+name: Test Nova Block Compat on Android 10
+
+on:
+  push:
+    paths:
+      - '.github/workflows/test-novablock-compat.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  install-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download compat build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: NovaBlock-build-1.0.1
+          run-id: 33258313546
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: dist
+
+      - name: Sign test APK with v1 and v2
+        run: |
+          keytool -genkeypair -v -keystore test-release.jks -storepass TestNovaBlock2026 -keypass TestNovaBlock2026 -alias test -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 3650 -dname "CN=Nova Block Android 10 Test, O=Away23"
+          java -jar dist/sign-tools/lib/apksigner.jar sign \
+            --ks test-release.jks \
+            --ks-key-alias test \
+            --ks-pass pass:TestNovaBlock2026 \
+            --key-pass pass:TestNovaBlock2026 \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled false \
+            --v4-signing-enabled false \
+            --out dist/NovaBlock-Android10-test.apk \
+            dist/NovaBlock-1.0.1-unsigned.apk
+          java -jar dist/sign-tools/lib/apksigner.jar verify --verbose dist/NovaBlock-Android10-test.apk
+
+      - name: Install and launch on Android 10
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r dist/NovaBlock-Android10-test.apk
+            adb shell pm path at.away23.novablock.compat
+            adb shell am start -W -n at.away23.novablock.compat/.MainActivity
+            sleep 3
+            adb shell pidof at.away23.novablock.compat
