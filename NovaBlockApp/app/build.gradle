@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace 'com.away23.novablock'
+    namespace 'com.away23.novablockgame'
     compileSdk 36
 
     defaultConfig {
-        applicationId 'com.away23.novablock'
-        minSdk 26
-        targetSdk 36
-        versionCode 1
-        versionName '1.0.0'
+        applicationId 'com.away23.novablockgame'
+        minSdk 21
+        targetSdk 35
+        versionCode 2
+        versionName '1.0.1'
     }
 
     buildTypes {

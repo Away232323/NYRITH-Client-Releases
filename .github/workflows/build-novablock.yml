@@ -49,7 +49,7 @@ jobs:
       - name: Prepare artifact and signing tools
         run: |
           mkdir -p dist/sign-tools/lib
-          cp app/build/outputs/apk/release/app-release-unsigned.apk dist/NovaBlock-1.0.0-unsigned.apk
+          cp app/build/outputs/apk/release/app-release-unsigned.apk dist/NovaBlock-1.0.1-unsigned.apk
           cp "$ANDROID_HOME/build-tools/36.0.0/zipalign" dist/sign-tools/zipalign
           cp "$ANDROID_HOME/build-tools/36.0.0/apksigner" dist/sign-tools/apksigner
           cp "$ANDROID_HOME/build-tools/36.0.0/lib/apksigner.jar" dist/sign-tools/lib/apksigner.jar
@@ -58,7 +58,7 @@ jobs:
       - name: Upload APK and signing tools
         uses: actions/upload-artifact@v4
         with:
-          name: NovaBlock-build-1.0.0
+          name: NovaBlock-build-1.0.1
           path: NovaBlockApp/dist/
           if-no-files-found: error
           retention-days: 30

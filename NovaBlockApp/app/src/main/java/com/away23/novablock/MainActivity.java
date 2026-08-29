@@ -1,4 +1,4 @@
-package com.away23.novablock;
+package com.away23.novablockgame;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
                     String line; while ((line = reader.readLine()) != null) body.append(line);
                 }
                 JSONObject json = new JSONObject(body.toString());
-                long latestCode = json.optLong("versionCode", 1);
+                long latestCode = json.optLong("versionCode", 2);
                 String latestName = json.optString("versionName", "");
                 String updateUrl = json.optString("apkUrl", "");
                 String changelog = json.optString("changelog", "Neue Version verfügbar.");
@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
             if (android.os.Build.VERSION.SDK_INT >= 28) return info.getLongVersionCode();
             return info.versionCode;
-        } catch (Exception e) { return 1; }
+        } catch (Exception e) { return 2; }
     }
 
     private void showUpdateDialog(String versionName, String changelog, String updateUrl) {
