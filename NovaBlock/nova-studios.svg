@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280">
+<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#183bb6"/><stop offset="1" stop-color="#14a5ef"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#07317f" flood-opacity=".65"/></filter></defs>
+<rect width="720" height="1280" fill="url(#b)"/>
+<g transform="translate(74 485)" filter="url(#s)" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="178">
+ <text x="0" y="145" fill="#ff3d83">N</text><text x="142" y="145" fill="#2fa7ff">O</text><text x="296" y="145" fill="#ffbf12">V</text><text x="432" y="145" fill="#6ee81f">A</text>
+</g>
+<text x="360" y="735" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="64" font-weight="800" letter-spacing="18">STUDIOS</text>
+</svg>
