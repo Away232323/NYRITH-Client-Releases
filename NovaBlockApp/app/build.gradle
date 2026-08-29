@@ -9,19 +9,14 @@ android {
     defaultConfig {
         applicationId 'at.away23.novablock.compat'
         minSdk 21
-        targetSdk 28
-        versionCode 1
-        versionName '1.0.2'
+        targetSdk 36
+        versionCode 3
+        versionName '1.0.3'
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lint {
-        checkReleaseBuilds false
-        abortOnError false
     }
 
     buildTypes {
