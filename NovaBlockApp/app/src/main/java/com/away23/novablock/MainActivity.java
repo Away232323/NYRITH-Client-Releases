@@ -1,4 +1,4 @@
-package at.away23.novablock.compat;
+package com.away23.novablock.mobile;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
