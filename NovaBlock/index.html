@@ -3,47 +3,118 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#185fd7">
+  <meta name="theme-color" content="#145ed8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Nova Block">
-  <meta name="description" content="Nova Block – das juicy Block-Puzzle-Game von Nova Studios.">
+  <meta name="description" content="Nova Block – Block Puzzle von Nova Studios.">
   <title>Nova Block</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./game.css?v=3">
+  <link rel="stylesheet" href="./game.css?v=4">
 </head>
 <body>
-  <div id="app">
-    <section id="studioSplash" class="splash active" aria-label="Nova Studios">
-      <img src="./nova-studios.svg" alt="Nova Studios">
+<div id="app">
+  <section id="studioSplash" class="splash active"><img src="./nova-studios.svg" alt="Nova Studios"></section>
+  <section id="gameSplash" class="splash"><img src="./nova-block-splash.svg" alt="Nova Block"></section>
+
+  <main id="homeScreen" class="screen home hidden">
+    <header class="topbar">
+      <div class="profilePill"><span class="avatarMini">N</span><div><small>PLAYER</small><strong>NOVA</strong></div></div>
+      <div class="currency"><span>◆</span><strong id="coinCount">0</strong></div>
+      <button id="homeSoundBtn" class="roundBtn" aria-label="Sound">🔊</button>
+    </header>
+
+    <section class="hero">
+      <img src="./nova-block-splash.svg" class="menuLogo" alt="Nova Block">
+      <p>BLOCK PUZZLE • NOVA STUDIOS</p>
     </section>
-    <section id="gameSplash" class="splash" aria-label="Nova Block">
-      <img src="./nova-block-splash.svg" alt="Nova Block">
+
+    <section class="dailyCard">
+      <div class="dailyIcon">🔥</div>
+      <div class="dailyText"><small>DAILY STREAK</small><strong><span id="streakCount">0</span> Tage</strong><span id="dailyStatus">Heute noch spielen</span></div>
+      <button id="dailyQuickBtn" class="miniAction">GO</button>
     </section>
 
-    <main id="gameScreen" class="screen hidden">
-      <header class="hud">
-        <button class="iconBtn" id="soundBtn" aria-label="Sound an oder aus">🔊</button>
-        <div class="scoreWrap"><span>SCORE</span><strong id="score">0</strong></div>
-        <div class="bestWrap"><span>BEST</span><strong id="best">0</strong></div>
-        <button class="iconBtn" id="pauseBtn" aria-label="Pause">Ⅱ</button>
-      </header>
-      <div id="themeBadge" class="themeBadge">OCEAN</div>
-      <div id="combo" class="combo"></div>
-      <div id="boardWrap" class="boardWrap"><div id="board" class="board" aria-label="Spielfeld"></div><div id="particles" class="particles" aria-hidden="true"></div></div>
-      <section id="tray" class="tray" aria-label="Blöcke"></section>
-      <div class="hint">Zieh einen Block aufs Feld</div>
-    </main>
+    <section class="modeStack">
+      <button class="modeBtn classic" data-mode="classic"><span class="modeIcon">∞</span><div><strong>CLASSIC</strong><small>Endlos • Highscore jagen</small></div><b>▶</b></button>
+      <button class="modeBtn rush" data-mode="rush"><span class="modeIcon">⚡</span><div><strong>RUSH</strong><small>2 Minuten • x1.25 Score</small></div><b>▶</b></button>
+      <button class="modeBtn daily" data-mode="daily"><span class="modeIcon">★</span><div><strong>DAILY</strong><small>Heute gleiche Pieces für alle</small></div><b>▶</b></button>
+    </section>
 
-    <section id="pauseOverlay" class="overlay hidden"><div class="modal"><img class="modalLogo" src="./app-icon.svg" alt=""><h2>PAUSE</h2><button id="resumeBtn" class="primary">WEITERSPIELEN</button><button id="restartBtn" class="secondary">NEU STARTEN</button></div></section>
-    <section id="gameOverOverlay" class="overlay hidden"><div class="modal"><img class="modalLogo" src="./app-icon.svg" alt=""><h2>GAME OVER</h2><p>Score <strong id="finalScore">0</strong></p><button id="againBtn" class="primary">NOCHMAL</button></div></section>
+    <section class="quickStats">
+      <div><small>BEST</small><strong id="menuBest">0</strong></div>
+      <div><small>PERFECTS</small><strong id="perfectCount">0</strong></div>
+      <div><small>RUNS</small><strong id="runCount">0</strong></div>
+    </section>
 
-    <div id="installCard" class="installCard hidden"><img src="./app-icon.svg" alt=""><div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div><button id="installBtn">INSTALLIEREN</button><button id="installClose" class="closeBtn">×</button></div>
-    <div id="toast" class="toast"></div>
-  </div>
-  <script src="./game.js?v=3"></script>
+    <nav class="bottomNav">
+      <button class="navBtn active" data-screen="home"><span>⌂</span><small>HOME</small></button>
+      <button class="navBtn" data-screen="shop"><span>◆</span><small>SHOP</small></button>
+      <button class="navBtn" data-screen="rank"><span>♛</span><small>RANKING</small></button>
+    </nav>
+  </main>
+
+  <main id="shopScreen" class="screen sub hidden">
+    <header class="subHeader"><button class="backHome roundBtn">‹</button><div><small>NOVA STORE</small><h1>SHOP</h1></div><div class="currency"><span>◆</span><strong id="shopCoins">0</strong></div></header>
+    <div class="tabs"><button class="tab active" data-tab="themes">THEMES</button><button class="tab" data-tab="boosters">BOOSTER</button></div>
+    <section id="themeShop" class="shopGrid"></section>
+    <section id="boosterShop" class="shopGrid hidden"></section>
+    <nav class="bottomNav">
+      <button class="navBtn" data-screen="home"><span>⌂</span><small>HOME</small></button>
+      <button class="navBtn active" data-screen="shop"><span>◆</span><small>SHOP</small></button>
+      <button class="navBtn" data-screen="rank"><span>♛</span><small>RANKING</small></button>
+    </nav>
+  </main>
+
+  <main id="rankScreen" class="screen sub hidden">
+    <header class="subHeader"><button class="backHome roundBtn">‹</button><div><small>YOUR RECORDS</small><h1>RANKING</h1></div><div class="rankCrown">♛</div></header>
+    <section class="rankHero"><small>PERSONAL BEST</small><strong id="rankBest">0</strong><span>Dieses Gerät</span></section>
+    <section class="rankPanel">
+      <div class="rankTitle"><strong>TOP 10 RUNS</strong><span>LOCAL</span></div>
+      <div id="rankList"></div>
+    </section>
+    <div class="globalNote"><strong>🌍 GLOBAL RANKING</strong><span>Für echte weltweite Spieler braucht Nova Block als Nächstes einen kleinen Online-Backend-Service. Hier werden keine Fake-Spieler angezeigt.</span></div>
+    <nav class="bottomNav">
+      <button class="navBtn" data-screen="home"><span>⌂</span><small>HOME</small></button>
+      <button class="navBtn" data-screen="shop"><span>◆</span><small>SHOP</small></button>
+      <button class="navBtn active" data-screen="rank"><span>♛</span><small>RANKING</small></button>
+    </nav>
+  </main>
+
+  <main id="gameScreen" class="screen game hidden">
+    <header class="gameHeader">
+      <button id="exitGameBtn" class="roundBtn">‹</button>
+      <div class="scoreBox"><small id="modeLabel">CLASSIC</small><strong id="score">0</strong></div>
+      <div class="bestBox"><small>BEST</small><strong id="best">0</strong></div>
+      <button id="pauseBtn" class="roundBtn">Ⅱ</button>
+    </header>
+    <div class="gameMeta">
+      <span id="themeBadge">OCEAN</span>
+      <span id="timerBadge" class="hidden">02:00</span>
+      <span id="combo" class="combo"></span>
+    </div>
+    <div id="boardWrap" class="boardWrap">
+      <div id="board" class="board"></div>
+      <div id="clearFlash" class="clearFlash"></div>
+      <div id="particles" class="particles"></div>
+    </div>
+    <section id="tray" class="tray"></section>
+    <section class="boosterBar">
+      <button id="shuffleBtn" class="boosterBtn"><span>⟳</span><small>SHUFFLE</small><b id="shuffleCount">0</b></button>
+      <button id="blastBtn" class="boosterBtn"><span>✹</span><small>BLAST</small><b id="blastCount">0</b></button>
+    </section>
+  </main>
+
+  <section id="pauseOverlay" class="overlay hidden"><div class="modal"><img src="./app-icon.svg" class="modalLogo" alt=""><h2>PAUSE</h2><button id="resumeBtn" class="primary">WEITERSPIELEN</button><button id="restartBtn" class="secondary">NEU STARTEN</button><button id="leaveBtn" class="ghostBtn">ZUM MENÜ</button></div></section>
+  <section id="gameOverOverlay" class="overlay hidden"><div class="modal"><img src="./app-icon.svg" class="modalLogo" alt=""><small id="overMode">CLASSIC</small><h2>GAME OVER</h2><div class="endScore" id="finalScore">0</div><div class="rewardLine">+ <strong id="earnedCoins">0</strong> ◆</div><button id="againBtn" class="primary">NOCHMAL</button><button id="overHomeBtn" class="secondary">MENÜ</button></div></section>
+  <section id="confirmOverlay" class="overlay hidden"><div class="modal compact"><h2 id="confirmTitle">KAUFEN?</h2><p id="confirmText"></p><div class="twoBtns"><button id="confirmNo" class="secondary">NEIN</button><button id="confirmYes" class="primary">JA</button></div></div></section>
+
+  <div id="installCard" class="installCard hidden"><img src="./app-icon.svg" alt=""><div><strong>Nova Block installieren</strong><span>Ohne APK · ohne Anmeldung</span></div><button id="installBtn">INSTALLIEREN</button><button id="installClose" class="closeBtn">×</button></div>
+  <div id="toast" class="toast"></div>
+</div>
+<script src="./game.js?v=4"></script>
 </body>
 </html>
